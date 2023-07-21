@@ -12,14 +12,14 @@ const AuthLayouts = (props) => {
                 <h1 className="text-red-600 text-3xl font-bold mb-2">{title}</h1>
                 <p className="font-medium text-slate-500 mb-8">Welcome, Please enter your details!</p>
                 {children}
-                <navigation />
+                <Navigation type={type} />
             </div>
         </div>
     )
 }
 
 
-const navigation = ({type}) => {
+const Navigation = ({type}) => {
     if (type === "login") {
         return (
             <p className="text-sm mt-5 text-center">
