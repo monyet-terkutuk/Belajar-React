@@ -3,7 +3,7 @@ import Button from "../Element/Button"
 
 const CardProduct = ({children}) => {
     return (
-        <div className="w-full max-w-sm bg-white border border-green-600 rounded-lg shadow-md mx-3 flex flex-col justify-between">
+        <div className="w-full max-w-xs bg-blue-950 border border-slate-700 rounded-lg shadow-md mx-3 flex flex-col justify-between">
             {children}        
         </div>
     )
@@ -17,12 +17,12 @@ const Header = ({imageURL}) => {
     )
 }
 
-const Body = ({children,name}) => {
+const Body = ({children, name}) => {
     return (
         <div className="px-5 pb-5 h-full">
             <a href="#">
-                <h5 className="text-xl font-semibold tracking-tight text-green-700">{name}</h5>
-                <p className="text-s text-green-700">
+                <h5 className="text-xl font-semibold tracking-tight text-white mb-3">{name}</h5>
+                <p className="text-s text-white">
                     {children}
                 </p>
             </a>
@@ -33,8 +33,8 @@ const Body = ({children,name}) => {
 const Footer = ({price}) => {
     return (
         <div className="flex items-center px-5 pb-5 justify-between">
-            <span className="text-xl font-bold text-gray-500">Rp {price}</span>
-            <Button className="bg-green-700">Add to Cart</Button>
+            <span className="text-xl font-bold text-gray-300">Rp {price}</span>
+            <Button className="bg-red-600 border-red-950">Add to Cart</Button>
         </div>
     )
 }

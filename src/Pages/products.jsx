@@ -1,4 +1,6 @@
+import { Fragment } from "react";
 import CardProduct from "../components/Partials/CardProduct"
+import Button from "../components/Element/Button";
 
 const products = [
     {
@@ -6,7 +8,7 @@ const products = [
         image: "https://source.unsplash.com/400x200/?spagetti",
         name: "Spagetti",
         price: "320.000",
-        description: "lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam provident autem libero reiciendis sequi consectetur impedit quod facilis? Facere maiores dolores ullam expedita cum ea, architecto tempore quaerat quidem voluptatibus! lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam provident autem libero reiciendis sequi consectetur impedit quod facilis?"
+        description: "lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam provident autem libero."
     },
     {
         id: 2,
@@ -15,47 +17,35 @@ const products = [
         price: "230.000",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam provident autem libero reiciendis sequi consectetur impedit quod facilis?"
     },
-    {
-        id: 3,
-        image: "https://source.unsplash.com/400x200/?steak",
-        name: "Steak",
-        price: "230.000",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam provident autem libero reiciendis sequi consectetur impedit quod facilis?"
-    },
-    {
-        id: 4,
-        image: "https://source.unsplash.com/400x200/?rendang",
-        name: "Pizza Hut",
-        price: "230.000",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam provident autem libero reiciendis sequi consectetur impedit quod facilis?"
-    }
+    
+   
 ];
 
+const email = localStorage.getItem("email");
 const ProductsPage = () => {
+    const HandleLogout = () => {
+        localStorage.removeItem("email");
+        localStorage.removeItem("password");
+        window.location.href = "/login";
+    }
     return (
-        <div className="flex justify-center py-5">
-
-            <CardProduct >
-                <CardProduct.Header imageURL={"https://source.unsplash.com/400x200/?cake"} />
-                <CardProduct.Body title={"Cake Tart"}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam provident autem libero reiciendis sequi consectetur impedit quod facilis? Facere maiores dolores ullam expedita cum ea, architecto tempore quaerat quidem voluptatibus! 
-                </CardProduct.Body>
-
-                <CardProduct.Footer price={"320.000"} />
-            </CardProduct>
-
-            
-
-            { products.map((product) => (
-                <CardProduct key={product.id}>
-                    <CardProduct.Header imageURL={product.image} />
-                    <CardProduct.Body title={product.name}>
-                        {product.description}
-                    </CardProduct.Body>
-                    <CardProduct.Footer price={ product.price } />
-                </CardProduct>
-            )) }
-        </div>
+        <Fragment>
+            <div className="flex h-20 justify-end items-center px-10 bg-red-600 text-white">
+                {email ? <p className="text-xl">{email}</p> : <p className="text-xl">Please login</p>}
+                <Button className="ml-5 bg-black" onClick={HandleLogout}>Logout</Button>
+            </div>
+            <div className="flex justify-center py-5">
+                { products.map((product) => (
+                    <CardProduct key={product.id}>
+                        <CardProduct.Header imageURL={product.image} />
+                        <CardProduct.Body name={product.name}>
+                            {product.description}
+                        </CardProduct.Body>
+                        <CardProduct.Footer price={ product.price } />
+                    </CardProduct>
+                )) }
+            </div>
+        </Fragment>
     )
 }
 

@@ -1,11 +1,19 @@
 import Button from "../Element/Button"
 import FormInput from "../Element/Input"
 const FormLogin = () => {
+  const HandleLogin = (event) => {
+    event.preventDefault();
+
+    localStorage.setItem("email", event.target.email.value);
+    localStorage.setItem("password", event.target.password.value);
+    
+    window.location.href = "/products";
+  }
     return (
-    <form action="">
+    <form onSubmit={HandleLogin}>
       <FormInput  type="email" placeholder="your@email.com" name="email" label="Email" />
       <FormInput  type="password" placeholder="********" name="password" label="Password" />
-      <Button classname="bg-red-600 w-full">Login</Button>
+      <Button className="bg-red-600 w-full border border-slate-200" type="submit">Login</Button>
     </form>
     )
 }
