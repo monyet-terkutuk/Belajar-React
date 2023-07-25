@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import CardProduct from "../components/Partials/CardProduct"
 import Button from "../components/Element/Button";
+import Counter from "../components/Partials/Counter";
 
 const products = [
     {
@@ -24,13 +25,13 @@ const products = [
         price: 240000,
         description: "Aliquam provident autem libero reiciendis sequi consectetur impedit quod facilis?"
     },
-    {
-        id: 4,
-        image: "https://source.unsplash.com/400x200/?sandwich",
-        name: "Sandwich",
-        price: 45000,
-        description: "Lorem ipsum dolor sit ametelit. Aliquam provident autem libero reiciendis sequi consectetur impedit quod facilis?"
-    },
+    // {
+    //     id: 4,
+    //     image: "https://source.unsplash.com/400x200/?sandwich",
+    //     name: "Sandwich",
+    //     price: 45000,
+    //     description: "Lorem ipsum dolor sit ametelit. Aliquam provident autem libero reiciendis sequi consectetur impedit quod facilis?"
+    // },
 ];
 
 const email = localStorage.getItem("email");
@@ -77,7 +78,7 @@ const ProductsPage = () => {
                 )) }
                 </div>
                 <div className="w-2/6">
-                    <h1 className="text-3xl font-bold text-blue-900 ml-5 mb-2">Card</h1>
+                    <h1 className="text-3xl font-bold text-blue-900 ml-5 mb-2">Cart</h1>
                     <table className="text-left table-auto border-separate border-spacing-x-5">
                         <thead>
                             <tr>
@@ -104,6 +105,9 @@ const ProductsPage = () => {
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div className="mt-5 flex justify-center mb-28">
+                <Counter></Counter>
             </div>
         </Fragment>
     )
