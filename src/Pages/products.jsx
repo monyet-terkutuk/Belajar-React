@@ -1,34 +1,63 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import CardProduct from "../components/Partials/CardProduct"
 import Button from "../components/Element/Button";
-import Counter from "../components/Partials/Counter";
 
 const products = [
     {
         id: 1,
         image: "https://source.unsplash.com/400x200/?spagetti",
         name: "Spagetti",
-        price: "320.000",
+        price: 74000,
         description: "lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam provident autem libero."
     },
     {
         id: 2,
         image: "https://source.unsplash.com/400x200/?pizza",
         name: "Pizza Hut",
-        price: "230.000",
+        price: 120000,
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam provident autem libero reiciendis sequi consectetur impedit quod facilis?"
     },
-    
-   
+    {
+        id: 3,
+        image: "https://source.unsplash.com/400x200/?sushi",
+        name: "Sushi",
+        price: 240000,
+        description: "Aliquam provident autem libero reiciendis sequi consectetur impedit quod facilis?"
+    },
+    {
+        id: 4,
+        image: "https://source.unsplash.com/400x200/?sandwich",
+        name: "Sandwich",
+        price: 45000,
+        description: "Lorem ipsum dolor sit ametelit. Aliquam provident autem libero reiciendis sequi consectetur impedit quod facilis?"
+    },
 ];
 
 const email = localStorage.getItem("email");
 const ProductsPage = () => {
+    const [cart, setCart] = useState([
+        {
+            id: 1,
+            qty: 1,
+        }
+    ]);
+
     const HandleLogout = () => {
         localStorage.removeItem("email");
         localStorage.removeItem("password");
         window.location.href = "/login";
     }
+
+    const HandleAddToCart = (id) => {
+        if (cart.find(item => item.id === id)) {
+            setCart(
+                cart.map(item => item.id === id ? {...item, qty: item.qty + 1 } : item)
+            )
+        } else {
+            setCart([...cart, { id, qty: 1 }]);
+        }
+    }
+
     return (
         <Fragment>
             <div className="flex h-20 justify-end items-center px-10 bg-red-600 text-white">
@@ -36,18 +65,45 @@ const ProductsPage = () => {
                 <Button className="ml-5 bg-blue-950 border border-blue-950" onClick={HandleLogout}>Logout</Button>
             </div>
             <div className="flex justify-center py-5">
+                <div className="w-5/6 flex flex-wrap">
                 { products.map((product) => (
                     <CardProduct key={product.id}>
                         <CardProduct.Header imageURL={product.image} />
                         <CardProduct.Body name={product.name}>
                             {product.description}
                         </CardProduct.Body>
-                        <CardProduct.Footer price={ product.price } />
+                        <CardProduct.Footer price={ product.price } id={product.id} HandleAddToCart={HandleAddToCart}/>
                     </CardProduct>
                 )) }
-            </div>
-            <div className="flex justify-center w-100">
-                <Counter></Counter>
+                </div>
+                <div className="w-2/6">
+                    <h1 className="text-3xl font-bold text-blue-900 ml-5 mb-2">Card</h1>
+                    <table className="text-left table-auto border-separate border-spacing-x-5">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Qty</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {cart.map((item) => {
+                                const product = products.find(
+                                    (product) => product.id == item.id
+                                );
+                                return (
+                                    <tr key={item.id}>
+                                        <td>{product.name}</td>
+                                        <td>Rp. {product.price.toLocaleString('id-ID', {styles:'currency', currency:'IDN'})}</td>
+                                        <td className="text-center">{item.qty}</td>
+                                        <td>Rp. {(item.qty * product.price).toLocaleString('id-ID', {styles:'currency', currency:'IDN'})}</td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </Fragment>
     )
