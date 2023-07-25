@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import CardProduct from "../components/Partials/CardProduct"
 import Button from "../components/Element/Button";
+import Counter from "../components/Partials/Counter";
 
 const products = [
     {
@@ -32,7 +33,7 @@ const ProductsPage = () => {
         <Fragment>
             <div className="flex h-20 justify-end items-center px-10 bg-red-600 text-white">
                 {email ? <p className="text-xl">{email}</p> : <p className="text-xl">Please login</p>}
-                <Button className="ml-5 bg-black" onClick={HandleLogout}>Logout</Button>
+                <Button className="ml-5 bg-blue-950 border border-blue-950" onClick={HandleLogout}>Logout</Button>
             </div>
             <div className="flex justify-center py-5">
                 { products.map((product) => (
@@ -44,6 +45,9 @@ const ProductsPage = () => {
                         <CardProduct.Footer price={ product.price } />
                     </CardProduct>
                 )) }
+            </div>
+            <div className="flex justify-center w-100">
+                <Counter></Counter>
             </div>
         </Fragment>
     )
