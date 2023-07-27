@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import CardProduct from "../components/Partials/CardProduct"
 import Button from "../components/Element/Button";
-import Counter from "../components/Partials/Counter";
+
 
 const products = [
     {
@@ -71,12 +71,21 @@ const ProductsPage = () => {
     }
 
     // useRef
-    const cartRef = useRef(JSON.parse(localStorage.getItem("cart")) || []);
+    // const cartRef = useRef(JSON.parse(localStorage.getItem("cart")) || []);
 
-    const HandleAddToCartRef = (id) => {
-        cartRef.current = [...cartRef.current, { id, qty: 1 }];
-        localStorage.setItem("cart",JSON.stringify(cartRef.current));
-    }
+    // const HandleAddToCartRef = (id) => {
+    //     cartRef.current = [...cartRef.current, { id, qty: 1 }];
+    //     localStorage.setItem("cart",JSON.stringify(cartRef.current));
+    // }
+
+    const totalPriceRef = useRef(null);
+    useEffect(() => {
+        if (cart.length > 0) {
+            totalPriceRef.current.style.display = ""
+        } else {
+            totalPriceRef.current.style.display = "none"
+        }
+    }, [cart]);
 
     return (
         <Fragment>
@@ -121,8 +130,8 @@ const ProductsPage = () => {
                                     </tr>
                                 )
                             })}
-                            <hr className="my-5 border border-blue-950" />
-                            <tr className="font-bold">
+                            <hr className="mt-5 border border-transparent" />
+                            <tr className="font-bold" ref={totalPriceRef}>
                                 <td colSpan={3}>Total Price : </td>
                                 <td className="text-red-600">Rp. {totalPrice.toLocaleString('id-ID', {styles:'currency', currency:'IDN'})}</td>
                             </tr>
