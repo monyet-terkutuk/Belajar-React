@@ -92,7 +92,7 @@ const ProductsPage = () => {
                         <CardProduct.Body name={product.name}>
                             {product.description}
                         </CardProduct.Body>
-                        <CardProduct.Footer price={ product.price } id={product.id} HandleAddToCart={HandleAddToCartRef}/>
+                        <CardProduct.Footer price={ product.price } id={product.id} HandleAddToCart={HandleAddToCart}/>
                     </CardProduct>
                 )) }
                 </div>
@@ -108,7 +108,7 @@ const ProductsPage = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {cartRef.current.map((item) => {
+                            {cart.map((item) => {
                                 const product = products.find(
                                     (product) => product.id == item.id
                                 );
@@ -121,11 +121,11 @@ const ProductsPage = () => {
                                     </tr>
                                 )
                             })}
-                            {/* <hr className="my-5 border border-blue-950" />
+                            <hr className="my-5 border border-blue-950" />
                             <tr className="font-bold">
                                 <td colSpan={3}>Total Price : </td>
                                 <td className="text-red-600">Rp. {totalPrice.toLocaleString('id-ID', {styles:'currency', currency:'IDN'})}</td>
-                            </tr> */}
+                            </tr>
                         </tbody>
                     </table>
                 </div>
