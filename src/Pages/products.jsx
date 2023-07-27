@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import CardProduct from "../components/Partials/CardProduct"
 import Button from "../components/Element/Button";
 import Counter from "../components/Partials/Counter";
@@ -36,12 +36,23 @@ const products = [
 
 const email = localStorage.getItem("email");
 const ProductsPage = () => {
-    const [cart, setCart] = useState([
-        {
-            id: 1,
-            qty: 1,
-        }
-    ]);
+    const [cart, setCart] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    useEffect(() => {
+        setCart(JSON.parse(localStorage.getItem("cart")) || []);
+    }, []);
+
+    useEffect(() => {
+        if (cart.length > 0) {
+            const sum = cart.reduce((acc, item) => {
+                const product = products.find((product) => product.id === item.id);
+                return acc + product.price * item.qty;
+            }, 0);
+            setTotalPrice(sum);
+            localStorage.setItem("cart",JSON.stringify(cart));
+       }
+    }, [cart]);
 
     const HandleLogout = () => {
         localStorage.removeItem("email");
@@ -59,6 +70,14 @@ const ProductsPage = () => {
         }
     }
 
+    // useRef
+    const cartRef = useRef(JSON.parse(localStorage.getItem("cart")) || []);
+
+    const HandleAddToCartRef = (id) => {
+        cartRef.current = [...cartRef.current, { id, qty: 1 }];
+        localStorage.setItem("cart",JSON.stringify(cartRef.current));
+    }
+
     return (
         <Fragment>
             <div className="flex h-20 justify-end items-center px-10 bg-red-600 text-white">
@@ -73,7 +92,7 @@ const ProductsPage = () => {
                         <CardProduct.Body name={product.name}>
                             {product.description}
                         </CardProduct.Body>
-                        <CardProduct.Footer price={ product.price } id={product.id} HandleAddToCart={HandleAddToCart}/>
+                        <CardProduct.Footer price={ product.price } id={product.id} HandleAddToCart={HandleAddToCartRef}/>
                     </CardProduct>
                 )) }
                 </div>
@@ -89,7 +108,7 @@ const ProductsPage = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {cart.map((item) => {
+                            {cartRef.current.map((item) => {
                                 const product = products.find(
                                     (product) => product.id == item.id
                                 );
@@ -102,12 +121,14 @@ const ProductsPage = () => {
                                     </tr>
                                 )
                             })}
+                            {/* <hr className="my-5 border border-blue-950" />
+                            <tr className="font-bold">
+                                <td colSpan={3}>Total Price : </td>
+                                <td className="text-red-600">Rp. {totalPrice.toLocaleString('id-ID', {styles:'currency', currency:'IDN'})}</td>
+                            </tr> */}
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div className="mt-5 flex justify-center mb-28">
-                <Counter></Counter>
             </div>
         </Fragment>
     )
