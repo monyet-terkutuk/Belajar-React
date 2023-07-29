@@ -2,26 +2,18 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import CardProduct from "../components/Partials/CardProduct"
 import Button from "../components/Element/Button";
 import { getProducts } from "../service/product.service";
-import { getUsername } from "../service/auth.service";
+import { useLogin } from "../hooks/useLogin";
 
 const ProductsPage = () => {
     const [cart, setCart] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [products, setProducts] = useState([]);
-    const [username, setUsername] = useState("");
+    const username = useLogin()
 
     useEffect(() => {
         setCart(JSON.parse(localStorage.getItem("cart")) || []);
     }, []);
 
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            setUsername(getUsername(token));
-        } else {
-            window.location.href = "/login";
-        }
-    }, [])
 
     useEffect(() => {
         getProducts((data) => {
@@ -79,10 +71,10 @@ const ProductsPage = () => {
                 <Button className="ml-5 bg-blue-950 border border-blue-950" onClick={HandleLogout}>Logout</Button>
             </div>
             <div className="flex justify-center py-5">
-                <div className="w-4/6 flex flex-wrap">
+                <div className="w-5/6 flex flex-wrap">
                 { products.length > 0 && products.map((product) => (
                     <CardProduct key={product.id}>
-                        <CardProduct.Header imageURL={product.image} />
+                        <CardProduct.Header imageURL={product.image} id={product.id} />
                         <CardProduct.Body name={product.title}>
                             {product.description}
                         </CardProduct.Body>
@@ -90,7 +82,7 @@ const ProductsPage = () => {
                     </CardProduct>
                 )) }
                 </div>
-                <div className="w-3/6">
+                <div className="w-2/6">
                     <h1 className="text-3xl font-bold text-blue-900 ml-5 mb-2">Cart</h1>
                     <table className="text-left table-auto border-separate border-spacing-x-5">
                         <thead>

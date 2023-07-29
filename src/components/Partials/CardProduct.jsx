@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { Link } from "react-router-dom"
 import Button from "../Element/Button"
 
 const CardProduct = ({children}) => {
@@ -9,11 +10,11 @@ const CardProduct = ({children}) => {
     )
 }
 
-const Header = ({imageURL}) => {
+const Header = ({imageURL, id}) => {
     return (
-        <a href="#">
+        <Link to={`/product/${id}`}>
             <img src={imageURL} alt="menu" className="p-8 rounded-t-lg h-60 w-full object-cover" />
-        </a>
+        </Link>
     )
 }
 
