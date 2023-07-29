@@ -2,16 +2,26 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import CardProduct from "../components/Partials/CardProduct"
 import Button from "../components/Element/Button";
 import { getProducts } from "../service/product.service";
+import { getUsername } from "../service/auth.service";
 
-const email = localStorage.getItem("email");
 const ProductsPage = () => {
     const [cart, setCart] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [products, setProducts] = useState([]);
+    const [username, setUsername] = useState("");
 
     useEffect(() => {
         setCart(JSON.parse(localStorage.getItem("cart")) || []);
     }, []);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            setUsername(getUsername(token));
+        } else {
+            window.location.href = "/login";
+        }
+    }, [])
 
     useEffect(() => {
         getProducts((data) => {
@@ -31,8 +41,7 @@ const ProductsPage = () => {
     }, [cart, products]);
 
     const HandleLogout = () => {
-        localStorage.removeItem("email");
-        localStorage.removeItem("password");
+        localStorage.removeItem("token");
         window.location.href = "/login";
     }
 
@@ -66,7 +75,7 @@ const ProductsPage = () => {
     return (
         <Fragment>
             <div className="flex h-20 justify-end items-center px-10 bg-red-600 text-white">
-                {email ? <p className="text-xl">{email}</p> : <p className="text-xl">Please login</p>}
+                {username ? <p className="text-xl">{username}</p> : <p className="text-xl">Please login</p>}
                 <Button className="ml-5 bg-blue-950 border border-blue-950" onClick={HandleLogout}>Logout</Button>
             </div>
             <div className="flex justify-center py-5">
